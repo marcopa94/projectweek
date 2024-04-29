@@ -15,7 +15,7 @@ const ArticleList = () => {
   const [editArticleTitle, setEditArticleTitle] = useState("");
   const [editArticleContent, setEditArticleContent] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [articlesPerPage] = useState(4);
+  const [articlesPerPage] = useState(3);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -166,7 +166,7 @@ const ArticleList = () => {
       <Navbar />
 
       <div className="container">
-        <h1 className="mt-5 mb-4"> Ultimi Articoli </h1>
+        <h1 className="mt-5 mb-4">Ultimi Articoli</h1>
         <div className="text-center mt-3">
           <Button className="mt-5 mb-5" variant="success" onClick={() => setShowAddModal(true)}>
             Aggiungi Nuovo Articolo
@@ -184,13 +184,13 @@ const ArticleList = () => {
         </div>
         <div className="row">
           {currentArticles.map((article) => (
-            <div key={article.id} className="col-md-6 mb-4">
+            <div key={article.id} className="col-xs-6 col-md-6 col-lg-4 mb-4">
               <div className="card">
                 <img
                   src={
-                    article._embedded["wp:featuredmedia"]
+                    article._embedded && article._embedded["wp:featuredmedia"]
                       ? article._embedded["wp:featuredmedia"][0].source_url
-                      : "https://img.freepik.com/free-vector/realistic-peace-message-background_23-2148969871.jpg"
+                      : " "
                   }
                   className="card-img-top"
                   alt=""
