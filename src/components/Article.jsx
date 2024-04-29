@@ -20,7 +20,7 @@ const ArticleList = () => {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await fetch("http://localhost/wordpress-6.5.2-it_IT/wordpress/wp-json/wp/v2/posts/");
+        const response = await fetch("http://localhost/wordpress-6.5.2-it_IT/wordpress/wp-json/wp/v2/posts?_embed=1");
         if (!response.ok) {
           throw new Error("Errore durante il recupero degli articoli");
         }
@@ -166,8 +166,7 @@ const ArticleList = () => {
       <Navbar />
 
       <div className="container">
-        <h1 className="mt-5 mb-4"> Ultimi Articoli </h1> <br></br>
-        <img src={require("./3.png")} alt="" width={200} />
+        <h1 className="mt-5 mb-4"> Ultimi Articoli </h1>
         <div className="text-center mt-3">
           <Button className="mt-5 mb-5" variant="success" onClick={() => setShowAddModal(true)}>
             Aggiungi Nuovo Articolo
@@ -187,6 +186,15 @@ const ArticleList = () => {
           {currentArticles.map((article) => (
             <div key={article.id} className="col-md-6 mb-4">
               <div className="card">
+                <img
+                  src={
+                    article._embedded["wp:featuredmedia"]
+                      ? article._embedded["wp:featuredmedia"][0].source_url
+                      : "https://img.freepik.com/free-vector/realistic-peace-message-background_23-2148969871.jpg"
+                  }
+                  className="card-img-top"
+                  alt=""
+                />
                 <div className="card-body">
                   <h5 className="card-title">{article.title.rendered}</h5>
                   <p className="card-text" dangerouslySetInnerHTML={{ __html: article.excerpt.rendered }}></p>
