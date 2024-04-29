@@ -14,6 +14,8 @@ const ArticleList = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editArticleTitle, setEditArticleTitle] = useState("");
   const [editArticleContent, setEditArticleContent] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [articlesPerPage] = useState(4);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -153,9 +155,11 @@ const ArticleList = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredArticles = articles.filter((article) =>
-    article.title.rendered.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const indexOfLastArticle = currentPage * articlesPerPage;
+  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
+  const currentArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -179,7 +183,7 @@ const ArticleList = () => {
           />
         </div>
         <div className="row">
-          {filteredArticles.map((article) => (
+          {currentArticles.map((article) => (
             <div key={article.id} className="col-md-6 mb-4">
               <div className="card">
                 <div className="card-body">
@@ -207,6 +211,17 @@ const ArticleList = () => {
             </div>
           ))}
         </div>
+        <nav>
+          <ul className="pagination justify-content-center">
+            {[...Array(Math.ceil(articles.length / articlesPerPage)).keys()].map((number) => (
+              <li key={number} className="page-item">
+                <button onClick={() => paginate(number + 1)} className="page-link">
+                  {number + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
       <Modal show={selectedArticle !== null} onHide={closeModal}>
