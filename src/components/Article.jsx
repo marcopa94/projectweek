@@ -166,7 +166,8 @@ const ArticleList = () => {
       <Navbar />
 
       <div className="container">
-        <h1 className="mt-5 mb-4">Lista degli Articoli</h1>
+        <h1 className="mt-5 mb-4"> Ultimi Articoli </h1> <br></br>
+        <img src={require("./3.png")} alt="" width={200} />
         <div className="text-center mt-3">
           <Button className="mt-5 mb-5" variant="success" onClick={() => setShowAddModal(true)}>
             Aggiungi Nuovo Articolo
@@ -189,23 +190,27 @@ const ArticleList = () => {
                 <div className="card-body">
                   <h5 className="card-title">{article.title.rendered}</h5>
                   <p className="card-text" dangerouslySetInnerHTML={{ __html: article.excerpt.rendered }}></p>
-                  <button className="btn btn-danger mr-2" onClick={() => deletePost(article.id)}>
+                </div>
+                <div className="card-footer" style={{ display: "flex", justifyContent: "space-between" }}>
+                  <button className="btn btn-danger" onClick={() => deletePost(article.id)}>
                     Elimina
                   </button>
-                  <button className="btn btn-primary mr-2" onClick={() => openModal(article)}>
-                    Visualizza
-                  </button>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => {
-                      setEditArticleTitle(article.title.rendered);
-                      setEditArticleContent(article.content.rendered);
-                      setSelectedArticle(article);
-                      setShowEditModal(true);
-                    }}
-                  >
-                    Modifica
-                  </button>
+                  <div>
+                    <button className="btn btn-primary mr-2" onClick={() => openModal(article)}>
+                      Visualizza
+                    </button>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        setEditArticleTitle(article.title.rendered);
+                        setEditArticleContent(article.content.rendered);
+                        setSelectedArticle(article);
+                        setShowEditModal(true);
+                      }}
+                    >
+                      Modifica
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -224,7 +229,7 @@ const ArticleList = () => {
         </nav>
       </div>
 
-      <Modal show={selectedArticle !== null} onHide={closeModal}>
+      <Modal show={selectedArticle !== null && !showEditModal} onHide={closeModal}>
         <Modal.Header closeButton>
           <Modal.Title>{selectedArticle?.title.rendered}</Modal.Title>
         </Modal.Header>
