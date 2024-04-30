@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import Footer from "./Footer";
 
 const ArticleList = () => {
   const [articles, setArticles] = useState([]);
@@ -170,13 +171,17 @@ const ArticleList = () => {
       <Navbar />
 
       <div className="container">
-        <h1 className="mt-5 mb-4">Ultimi Articoli</h1>
+        <h1 className="mt-5 mb-4">Ultimi Articoli dal mondo</h1>
         <div className="text-center mt-3">
           <Button className="mt-5 mb-5" variant="success" onClick={() => setShowAddModal(true)}>
             Aggiungi Nuovo Articolo
           </Button>
         </div>
         {error && <div className="alert alert-danger">{error}</div>}
+        <p style={{ color: "red" }}>
+          {" "}
+          <b> Utilizza la nostra funzione cerca per cercare con una parola chiave l articolo desiderato</b>
+        </p>
         <div className="mb-3">
           <input
             type="text"
@@ -239,6 +244,7 @@ const ArticleList = () => {
             ))}
           </ul>
         </nav>
+        <Footer></Footer>
       </div>
 
       <Modal show={selectedArticle !== null && !showEditModal} onHide={closeModal}>
@@ -247,7 +253,7 @@ const ArticleList = () => {
         </Modal.Header>
         <Modal.Body>
           <p dangerouslySetInnerHTML={{ __html: selectedArticle?.content.rendered }}></p>
-          <p>Autore: {selectedArticle?.author}</p>
+          <p>Autore: {selectedArticle?._embedded.author[0].name}</p>
           <p>Data di pubblicazione: {new Date(selectedArticle?.date).toLocaleDateString()}</p>
         </Modal.Body>
         <Modal.Footer>
