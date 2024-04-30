@@ -243,13 +243,30 @@ const ArticleList = () => {
         </div>
         <nav>
           <ul className="pagination justify-content-center">
+            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+              <button className="page-link" onClick={() => paginate(currentPage - 1)}>
+                Indietro
+              </button>
+            </li>
             {[...Array(Math.ceil(filteredArticles.length / articlesPerPage)).keys()].map((number) => (
               <li key={number} className="page-item">
-                <button onClick={() => paginate(number + 1)} className="page-link">
+                <button
+                  onClick={() => paginate(number + 1)}
+                  className={`page-link ${currentPage === number + 1 ? "active" : ""}`}
+                >
                   {number + 1}
                 </button>
               </li>
             ))}
+            <li
+              className={`page-item ${
+                currentPage === Math.ceil(filteredArticles.length / articlesPerPage) ? "disabled" : ""
+              }`}
+            >
+              <button className="page-link" onClick={() => paginate(currentPage + 1)}>
+                Avanti
+              </button>
+            </li>
           </ul>
         </nav>
         <Footer></Footer>
