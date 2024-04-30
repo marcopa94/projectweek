@@ -177,7 +177,9 @@ const ArticleList = () => {
       <Navbar />
 
       <div className="container">
-        <h1 className="mt-5 mb-4">Ultimi Articoli dal mondo</h1>
+        <h1 className="mt-5 mb-4" style={{ textAlign: "center" }}>
+          Ultimi Articoli dal mondo
+        </h1>
         <div className="text-center mt-3">
           <Button className="mt-5 mb-5" variant="success" onClick={() => setShowAddModal(true)}>
             Aggiungi Nuovo Articolo
@@ -185,9 +187,11 @@ const ArticleList = () => {
         </div>
         {error && <div className="alert alert-danger">{error}</div>}
         <p style={{ color: "red" }}>
-          <b>Utilizza la nostra funzione cerca per cercare con una parola chiave l'articolo desiderato</b>
+          <b style={{ fontSize: "26px" }}>
+            Utilizza la nostra funzione cerca per cercare con una parola chiave l'articolo desiderato
+          </b>
         </p>
-        <div className="mb-3">
+        <div className="mb-5">
           <input
             type="text"
             className="form-control mt"
@@ -241,7 +245,7 @@ const ArticleList = () => {
             </div>
           ))}
         </div>
-        <nav>
+        <nav className="mt-3 mb-5">
           <ul className="pagination justify-content-center">
             <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
               <button className="page-link" onClick={() => paginate(currentPage - 1)}>
