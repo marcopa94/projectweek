@@ -194,7 +194,7 @@ const ArticleList = () => {
                   src={
                     article._embedded && article._embedded["wp:featuredmedia"]
                       ? article._embedded["wp:featuredmedia"][0].source_url
-                      : ""
+                      : " "
                   }
                   className="card-img-top"
                   alt=""
@@ -247,6 +247,8 @@ const ArticleList = () => {
         </Modal.Header>
         <Modal.Body>
           <p dangerouslySetInnerHTML={{ __html: selectedArticle?.content.rendered }}></p>
+          <p>Autore: {selectedArticle?.author}</p>
+          <p>Data di pubblicazione: {new Date(selectedArticle?.date).toLocaleDateString()}</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>
