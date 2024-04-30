@@ -153,11 +153,15 @@ const ArticleList = () => {
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+    setCurrentPage(1); // Reset current page when search term changes
   };
 
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
-  const currentArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
+  const filteredArticles = articles.filter((article) =>
+    article.title.rendered.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  const currentArticles = filteredArticles.slice(indexOfFirstArticle, indexOfLastArticle);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -190,7 +194,7 @@ const ArticleList = () => {
                   src={
                     article._embedded && article._embedded["wp:featuredmedia"]
                       ? article._embedded["wp:featuredmedia"][0].source_url
-                      : " "
+                      : ""
                   }
                   className="card-img-top"
                   alt=""
@@ -226,7 +230,7 @@ const ArticleList = () => {
         </div>
         <nav>
           <ul className="pagination justify-content-center">
-            {[...Array(Math.ceil(articles.length / articlesPerPage)).keys()].map((number) => (
+            {[...Array(Math.ceil(filteredArticles.length / articlesPerPage)).keys()].map((number) => (
               <li key={number} className="page-item">
                 <button onClick={() => paginate(number + 1)} className="page-link">
                   {number + 1}
