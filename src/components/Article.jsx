@@ -146,6 +146,7 @@ const ArticleList = () => {
 
       setArticles(updatedArticles);
       setShowEditModal(false);
+      setSelectedArticle(null);
     } catch (error) {
       console.error(error);
       setError("Errore durante la modifica dell'articolo");
@@ -155,6 +156,11 @@ const ArticleList = () => {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1); // Reset current page when search term changes
+  };
+
+  const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    return text.substr(0, maxLength) + "...";
   };
 
   const indexOfLastArticle = currentPage * articlesPerPage;
@@ -179,8 +185,7 @@ const ArticleList = () => {
         </div>
         {error && <div className="alert alert-danger">{error}</div>}
         <p style={{ color: "red" }}>
-          {" "}
-          <b> Utilizza la nostra funzione cerca per cercare con una parola chiave l articolo desiderato</b>
+          <b>Utilizza la nostra funzione cerca per cercare con una parola chiave l'articolo desiderato</b>
         </p>
         <div className="mb-3">
           <input
@@ -206,7 +211,10 @@ const ArticleList = () => {
                 />
                 <div className="card-body">
                   <h5 className="card-title">{article.title.rendered}</h5>
-                  <p className="card-text" dangerouslySetInnerHTML={{ __html: article.excerpt.rendered }}></p>
+                  <p
+                    className="card-text"
+                    dangerouslySetInnerHTML={{ __html: truncateText(article.excerpt.rendered, 100) }}
+                  ></p>
                 </div>
                 <div className="card-footer" style={{ display: "flex", justifyContent: "space-between" }}>
                   <button className="btn btn-danger" onClick={() => deletePost(article.id)}>
@@ -253,7 +261,10 @@ const ArticleList = () => {
         </Modal.Header>
         <Modal.Body>
           <p dangerouslySetInnerHTML={{ __html: selectedArticle?.content.rendered }}></p>
-          <p>Autore: {selectedArticle?._embedded.author[0].name}</p>
+          <p>
+            Autore:{" "}
+            {selectedArticle?._embedded?.author ? selectedArticle._embedded.author[0].name : "Autore sconosciuto"}
+          </p>
           <p>Data di pubblicazione: {new Date(selectedArticle?.date).toLocaleDateString()}</p>
         </Modal.Body>
         <Modal.Footer>

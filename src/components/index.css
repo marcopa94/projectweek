@@ -1,5 +1,5 @@
 .card-body {
-  height: 280px;
+  height: 200px;
 }
 .card {
   width: 100%;
@@ -31,5 +31,5 @@
   object-fit: cover;
 }
 body {
-  background-color: aliceblue;
+  background-color: rgb(178, 199, 218);
 }
